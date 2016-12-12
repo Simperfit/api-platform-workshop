@@ -5,6 +5,7 @@ namespace AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use ApiPlatform\Core\Annotation\ApiResource;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity
@@ -19,13 +20,13 @@ class Review
 {
     /**
      * @ORM\Id
-     * @ORM\Column(type="string")
-     * @ORM\GeneratedValue(strategy="UUID")
+     * @ORM\Column(type="integer")
+     * @ORM\GeneratedValue(strategy="AUTO")
      * @Groups({"review_default_out"})
      *
-     * @var string
+     * @var integer
      */
-    private $uuid;
+    private $id;
 
     /**
      * @ORM\Column(type="text")
@@ -46,25 +47,19 @@ class Review
 
     /**
      * @ORM\ManyToOne(targetEntity="Book", inversedBy="reviews")
-     * @ORM\JoinColumn(name="book_uuid", referencedColumnName="uuid")
-     * @Groups({"review_default_out", "review_default_in"})
+     * @ORM\JoinColumn(name="book_id", referencedColumnName="id")
+     * @Groups({"review_default_in"})
      *
      * @var Book
      */
     private $book;
 
-    public function __construct(Book $book, string $contents)
-    {
-        $this->contents = $contents;
-        $this->book = $book;
-    }
-
     /**
-     * @return string
+     * @return int
      */
-    public function getUuid(): string
+    public function getId(): int
     {
-        return $this->uuid;
+        return $this->id;
     }
 
     /**
@@ -98,4 +93,21 @@ class Review
     {
         $this->published = $published;
     }
+
+    /**
+     * @param Book $book
+     */
+    public function setBook(Book $book)
+    {
+        $this->book = $book;
+    }
+
+    /**
+     * @param string $contents
+     */
+    public function setContents(string $contents)
+    {
+        $this->contents = $contents;
+    }
+
 }

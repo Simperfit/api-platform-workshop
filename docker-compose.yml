@@ -4,13 +4,16 @@ web:
         - database
     volumes:
         - .:/app
+        - /app/var/cache
     ports:
-        - 80:80
+        - 8080:80
 
 database:
     image: mysql
+    ports:
+        - 3307:3306
     environment:
-        MYSQL_ROOT_PASSWORD: changeme
+        MYSQL_ROOT_PASSWORD: root
         MYSQL_DATABASE: api_platform
         MYSQL_USER: api_platform
         MYSQL_PASSWORD: api_platform

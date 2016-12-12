@@ -18,18 +18,13 @@ use Symfony\Component\Validator\Constraints as Assert;
  *     },
  *     collectionOperations={
  *      "post"={"method"="POST"},
- *      "get"={
+ *      "list"={
  *       "method"="GET",
  *       "normalization_context"={"groups"={"book_collection_out"}}
  *   }
  *     },
  *      itemOperations={
  *      "put"={"method"="PUT"},
- *      "publish-reviews"={"route_name"="book_publish_reviews"},
- *      "get"={
- *       "method"="GET",
- *       "normalization_context"={"groups"={"book_item_out", "review_default_out"}}
- *     }
  *     })
  *
  * @ORM\Entity
@@ -38,17 +33,17 @@ class Book
 {
     /**
      * @ORM\Id
-     * @ORM\Column(type="string")
-     * @ORM\GeneratedValue(strategy="UUID")
+     * @ORM\Column(type="integer")
+     * @ORM\GeneratedValue(strategy="AUTO")
      * @Groups({"book_collection_out"})
      *
-     * @var string
+     * @var int
      */
-    private $uuid;
+    private $id;
 
     /**
      * @ORM\Column(type="string")
-     * @Groups({"book_collection_out", "book_default_in"})
+     * @Groups({"book_default_out", "book_default_in", "book_collection_out"})
      * @Assert\Type(type="string")
      *
      * @var string
@@ -57,7 +52,7 @@ class Book
 
     /**
      * @ORM\OneToMany(targetEntity="Review", mappedBy="book", cascade={"persist"})
-     * @Groups({"book_item_out", "book_default_in"})
+     * @Groups({"book_item_out", "book_item_in", "book_collection_in", "book_collection_out"})
      * @var Collection
      */
     private $reviews;
@@ -72,19 +67,19 @@ class Book
     }
 
     /**
-     * @return string
+     * @return int
      */
-    public function getUuid(): string
+    public function getId(): int
     {
-        return $this->uuid;
+        return $this->id;
     }
 
     /**
-     * @param string $uuid
+     * @param int $id
      */
-    public function setUuid(string $uuid)
+    public function setId(int $id)
     {
-        $this->uuid = $uuid;
+        $this->id = $id;
     }
 
     /**

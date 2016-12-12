@@ -74,6 +74,15 @@ nelmio_cors:
         allow_methods:  ["POST", "PUT", "GET", "DELETE", "OPTIONS"]
         allow_headers:  ["content-type", "authorization"]
         expose_headers: ["link"]
+        allow_credentials: true
         max_age:        3600
     paths:
         '^/': ~
+
+api_platform:
+    formats:
+        jsonld:   ['application/ld+json']
+        json: ['application/json']
+        html: ['text/html']
+        jsonapi: ['application/vnd.api+json']
+        jsonhal: ['application/hal+json']
